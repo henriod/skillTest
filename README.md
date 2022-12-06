@@ -36,7 +36,7 @@ If it fails due to permissions try with 'sudo'
 By default, the script will expose
 
 API docs at http://0.0.0.0:8008/docs \
-Website at https://0.0.0.0:4200 \
+Website at http://0.0.0.0:4200 \
 Django Admin at http://0.0.0.0:8000/admin \
 (username:janedore, password:test1234) login credentials
 
