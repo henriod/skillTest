@@ -15,7 +15,7 @@ Install 'docker' and 'docker-compose' and make sure they are working fine \
 Then run the below code to enable you to run the bash script
 
 ```bash
-chown +x start.sh
+chmod +x start.sh
 ```
 
 Run the script below it will:
