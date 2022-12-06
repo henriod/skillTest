@@ -41,3 +41,4 @@
 *.env
 *.sqlite3
 /acge_backend/.vscode/*
+.vscode
