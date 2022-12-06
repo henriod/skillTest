@@ -66,7 +66,12 @@ class FarmViewSet(viewsets.ModelViewSet):
                 # new_farm.save()
             return Response({"status": message}, status.HTTP_201_CREATED)
         else:
-            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(
+                {
+                    "details": "There was an error adding you data please try again later"
+                },
+                status=status.HTTP_400_BAD_REQUEST,
+            )
 
     """
     Api endpoint for getting 3 Worst performing farm in terms of SOC amount

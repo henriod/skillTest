@@ -13,9 +13,11 @@ export class MapComponent implements OnInit, AfterViewInit {
   private farms!: any;
   private WorstFarms!: any;
   private BestFarms!: any;
-  private errorMsg!: any;
+  public errorMsg: string = '';
   private file!: any;
   public UploadForm!: FormGroup;
+  public Msg: string = '';
+  public farmDetails: any = '';
 
   //Leaflet Map initialization
   private initMap(): void {
@@ -56,12 +58,16 @@ export class MapComponent implements OnInit, AfterViewInit {
     // legend.addTo(this.map);
     this.map.addControl(legend);
   }
+
+  //Get farm details on save
   private getFeatureProps(props: any) {
-    const farm = {
+    this.farmDetails = {
       Farm_Name: props.farm_name,
       SOC: props.soc,
     };
-    console.log(farm);
+  }
+  private clearFarmDetails() {
+    this.farmDetails = '';
   }
   // Layer Manipulation function top be used by mouse events
   private highlightFeature(e: any) {
@@ -87,6 +93,7 @@ export class MapComponent implements OnInit, AfterViewInit {
       fillOpacity: 0.1,
       fillColor: '#008f68',
     });
+    this.clearFarmDetails();
   }
   //Preparing Farms data as Leaflet Geojson Layer
   private initFarmsLayer() {
@@ -122,8 +129,10 @@ export class MapComponent implements OnInit, AfterViewInit {
       onEachFeature: (feature, layer) =>
         layer.on({
           mouseover: (e) => this.getFeatureProps(feature.properties),
+          mouseout: (e) => this.clearFarmDetails(),
         }),
     });
+    console.log(this.map);
     this.map.addLayer(farmsLayer);
     this.map.fitBounds(farmsLayer.getBounds());
   }
@@ -141,6 +150,7 @@ export class MapComponent implements OnInit, AfterViewInit {
       onEachFeature: (feature, layer) =>
         layer.on({
           mouseover: (e) => this.getFeatureProps(feature.properties),
+          mouseout: (e) => this.clearFarmDetails(),
         }),
     });
     this.map.addLayer(farmsLayer);
@@ -164,21 +174,12 @@ export class MapComponent implements OnInit, AfterViewInit {
   ngAfterViewInit(): void {
     this.initMap();
     this.initMapLegend();
-    this.dataService.getFarms().subscribe({
-      next: (farms) => {
-        this.farms = farms;
-        this.initFarmsLayer();
-      },
-      error: (error) => {
-        this.errorMsg = error;
-      },
-    });
+    this.addAllFarmsOnMap();
   }
 
   // Function for reading added file through input field
   uploadFile(event: any) {
     this.file = event.target.files[0];
-    console.log(this.file);
   }
   // Function for submiting data to the api
   public submitCsv() {
@@ -188,15 +189,17 @@ export class MapComponent implements OnInit, AfterViewInit {
     const formData = new FormData();
     formData.append('csv_file', this.file);
     this.dataService.postFarmcCSV(formData).subscribe({
-      next: (results) => {
-        console.log(results);
+      next: (results: any) => {
+        this.Msg = results.status;
+        this.addAllFarmsOnMap();
+        this.UploadForm.reset();
       },
-      error: (error) => {
-        console.log(error);
+      error: (error: any) => {
+        this.errorMsg = error.details;
       },
     });
   }
-
+  /** Add data to map from backend */
   public addWorstFarms() {
     this.dataService.getWorst3Farms().subscribe({
       next: (farms) => {
@@ -217,6 +220,30 @@ export class MapComponent implements OnInit, AfterViewInit {
       error: (error) => {
         this.errorMsg = error;
       },
+    });
+  }
+
+  public addAllFarmsOnMap() {
+    this.dataService.getFarms().subscribe({
+      next: (farms: any) => {
+        //Check if there are features comming from backend
+        //Help removing invalid bound error
+        if (farms.features.length != 0) {
+          this.farms = farms;
+          this.initFarmsLayer();
+        } else {
+          console.log(farms.features.length);
+        }
+      },
+      error: (error) => {
+        this.errorMsg = error;
+      },
+    });
+  }
+
+  public clearMapOfAllLAyers() {
+    this.map.eachLayer((layer) => {
+      layer.remove();
     });
   }
 }

@@ -9,13 +9,17 @@
     </p>
     <br />
     <div class="view-farm-groups">
-      <h2>Click to View the Data on Map</h2>
-      <button type="button" class="btn btn-success" (click)="addBestFarms()">
-        View Best Performing Farms
-      </button>
-      <button type="button" class="btn btn-danger" (click)="addWorstFarms()">
-        View Worst Performing Farms
-      </button>
+      <h3>Click to View the Data on Map</h3>
+      <div>
+        <button type="button" class="btn btn-success" (click)="addBestFarms()">
+          Best Performing Farms
+        </button>
+      </div>
+      <div>
+        <button type="button" class="btn btn-danger" (click)="addWorstFarms()">
+          Worst Performing Farms
+        </button>
+      </div>
     </div>
     <div class="addFarms">
       <form
@@ -60,7 +64,21 @@
         <div class="col-12">
           <button type="submit" class="btn btn-primary">Submit</button>
         </div>
+        <div>
+          <p *ngIf="Msg" style="color: greenyellow">{{ Msg }}</p>
+          <p *ngIf="errorMsg" style="color: tomato"></p>
+        </div>
       </form>
+    </div>
+    <div *ngIf="farmDetails" class="farm-details">
+      <h3>Farm Details</h3>
+      <p>
+        Farm Name: <span>{{ farmDetails.Farm_Name }}</span>
+      </p>
+      <p>
+        Soil Organic Carbon (SOC): <span>{{ farmDetails.SOC }}</span>
+        <small>(tonnes/hectare)</small>
+      </p>
     </div>
   </div>
   <div class="map-frame">

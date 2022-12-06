@@ -10,7 +10,7 @@
 
   .side-bar {
     width: 25%;
-    height: 100%;
+    height: calc(100% - 40px);
     margin: 20px;
     h1 {
       text-align: left;
@@ -22,10 +22,14 @@
     .view-farm-groups {
       height: 200px;
       display: flex;
-      justify-content: center;
+      justify-content: space-between;
       flex-wrap: wrap;
-    }
 
+      button {
+        width: 160px;
+      }
+    }
+    //Form styles for adding csv
     .addFarms {
       background-color: #495579;
       border-radius: 8px;
@@ -37,7 +41,19 @@
         }
       }
     }
+    // Farm details styles
+    .farm-details {
+      h3 {
+        color: #495579;
+      }
+      p {
+        span {
+          font-weight: bolder;
+        }
+      }
+    }
   }
+  // Map Desing styles
   .map-frame {
     height: 100%;
     width: 70%;
