@@ -1,0 +1,48 @@
+.map-container {
+  position: absolute;
+  display: flex;
+  justify-content: space-between;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #fffbeb;
+
+  .side-bar {
+    width: 25%;
+    height: 100%;
+    margin: 20px;
+    h1 {
+      text-align: left;
+      color: #251749;
+    }
+    p {
+      text-align: justify;
+    }
+    .view-farm-groups {
+      height: 200px;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+    }
+
+    .addFarms {
+      background-color: #495579;
+      border-radius: 8px;
+      color: white;
+      form {
+        margin: 10px;
+        #emailHelp {
+          color: #fffbeb;
+        }
+      }
+    }
+  }
+  .map-frame {
+    height: 100%;
+    width: 70%;
+    #map {
+      height: 100%;
+    }
+  }
+}

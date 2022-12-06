@@ -1,0 +1,69 @@
+<div class="map-container">
+  <div class="side-bar">
+    <h1>ACGE</h1>
+    <p>
+      (A Company that Grows Everything) is a company that manages a large number
+      of farms. The ACGE team measures and tracks the amount of organic matter
+      in the soil, particularly Soil Organic Carbon (SOC), across their
+      portfolio farms in Kenya
+    </p>
+    <br />
+    <div class="view-farm-groups">
+      <h2>Click to View the Data on Map</h2>
+      <button type="button" class="btn btn-success" (click)="addBestFarms()">
+        View Best Performing Farms
+      </button>
+      <button type="button" class="btn btn-danger" (click)="addWorstFarms()">
+        View Worst Performing Farms
+      </button>
+    </div>
+    <div class="addFarms">
+      <form
+        [formGroup]="UploadForm"
+        class="row row-cols-lg-auto g-3 align-items-center"
+        (ngSubmit)="submitCsv()"
+      >
+        <div class="mb-3 col-12">
+          <label for="exampleInputEmail1" class="form-label"
+            >Upload CSV File</label
+          >
+          <input
+            [class.is-invalid]="
+              UploadFormControls['file'].invalid &&
+              UploadFormControls['file'].touched
+            "
+            type="file"
+            accept=".csv"
+            class="form-control"
+            id="exampleInputEmail1"
+            aria-describedby="emailHelp"
+            formControlName="file"
+            (change)="uploadFile($event)"
+          />
+          <div
+            *ngIf="
+              (UploadFormControls['file'].invalid &&
+                UploadFormControls['file'].touched) ||
+              UploadFormControls['file'].dirty
+            "
+          >
+            <small
+              *ngIf="UploadFormControls['file'].errors?.['required']"
+              class="text-danger"
+              >Csv file is required before submiting
+            </small>
+          </div>
+          <div id="emailHelp" class="form-text">
+            Make sure the Farm Boundary Coordinates are in WKT.
+          </div>
+        </div>
+        <div class="col-12">
+          <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+      </form>
+    </div>
+  </div>
+  <div class="map-frame">
+    <div id="map"></div>
+  </div>
+</div>

@@ -1,0 +1,43 @@
+# See http://help.github.com/ignore-files/ for more about ignoring files.
+
+# Compiled output
+/acge-web/dist
+/acge-web/tmp
+/acge-web/out-tsc
+/acge-web/bazel-out
+
+# Node
+/acge-web/node_modules
+/acge-web/npm-debug.log
+/acge-web/yarn-error.log
+
+# IDEs and editors
+.idea/
+.project
+.classpath
+.c9/
+*.launch
+.settings/
+*.sublime-workspace
+
+# Visual Studio Code
+/acge-web/.vscode/*
+.history/*
+
+# Miscellaneous
+/acge-web/.angular/cache
+/acge-web/.sass-cache/
+/acge-web/connect.lock
+/acge-web/coverage
+/acge-web/libpeerconnection.log
+/acge-web/testem.log
+/acge-web/typings
+
+# System files
+/acge-web/.DS_Store
+*.db
+
+/env
+*.env
+*.sqlite3
+/acge_backend/.vscode/*
