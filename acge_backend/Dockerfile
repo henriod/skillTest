@@ -34,12 +34,11 @@ COPY . .
 
 # Print working directory
 RUN echo "$PWD"
-RUN echo $(ls -a /backend)
+RUN echo $(ls -la /backend)
 
 # Give docker write and read access
 RUN sed -i 's/\r$//g' /backend/entrypoint.sh
 RUN chmod +x /backend/entrypoint.sh
 
-#USER cropdig
 
-ENTRYPOINT ["/backend/entrypoint.sh"]
+ENTRYPOINT ["sh","/backend/entrypoint.sh"]
