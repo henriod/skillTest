@@ -6,7 +6,7 @@ COPY . /home/web
 RUN apt update -y
 RUN npm install -g @angular/cli -y
 RUN npm install
-RUN ng build
+RUN ng build --prod
 
 # Print working directory
 RUN echo "$PWD"

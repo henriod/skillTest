@@ -24,8 +24,10 @@ echo "-------Creating a superuser-------"
 python manage.py shell -c "
 from django.contrib.auth import get_user_model;
 try:
-  get_user_model().objects.create_superuser(email='janedoe@example.com',password='test1234')
+  get_user_model().objects.create_superuser(username='janedoe',email='janedoe@example.com',password='test1234')
 except Exception as e:
   print(e)
   "
+echo "---------Starting Gunicorn Server at 8000----------"
+gunicorn acge_backend.wsgi:application --bind 0.0.0.0:8000 --timeout 60000 --log-level=debug
 exec "$@"

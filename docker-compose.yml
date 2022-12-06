@@ -1,55 +1,60 @@
 version: "3.8"
 
 services:
-  database_postgis:
+  db:
     image: postgis/postgis:latest
-    container_name: acge_db
-    expose:
-      - 5432
+    container_name: db
+    ports:
+      - "5456:5432"
     environment:
-      - DB_USERNAME=postgres
-      - DB_PORT= 5432
-      - DB_PASSWORD=postgres
-      - DB_NAME=Acgedb
+      - POSTGRES_USER=postgres
+      - POSTGRES_PORT= 5456
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=Acgedb
     restart: unless-stopped
+    networks:
+      - acge_dev_network
 
   backend_django:
     build:
       context: ./acge_backend/
     restart: unless-stopped
     container_name: acge_backend
-    command: gunicorn acge_backend.wgsi:application --bind 0.0.0.0:8000 --timeout 60000 --log-level=debug
     ports:
-      - 8000:8000
+      - "8000:8000"
     environment:
       - SECRET_KEY="django-insecure-n=ofo^&1^z-w*jeio#zh&zj2je52y+zr4+)izlqt_b20cx!1q@"
-      - DB_NAME="Acge-bd"
-      - DB_USERNAME="posgres"
-      - DB_PASSWORD="postgres"
-      - DB_HOST=database_postgis
+      - DB_NAME=Acgedb
+      - DB_USERNAME=postgres
+      - DB_PASSWORD=postgres
+      - DB_HOST=db
       - DB_PORT=5432
     volumes:
       - ./acge_backend:/backend
     depends_on:
-      - database_postgis
+      - db
+    networks:
+      - acge_dev_network
 
   nginx:
     build:
       context: ./acge-web/
     restart: unless-stopped
     ports:
-      - 8008:8008
-      - 4200:4200
+      - "8008:8008"
+      - "4200:4200"
 
     volumes:
       - ./statics:/acge_backend/statics
-      - ./web:/var/www/acgeWeb/
       - ./nginx/:/etc/nginx/templates/
     environment:
       - NGINX_HOST=8008
       - NGINX_PORT=localhost
-      - NGINX_URL=http://backend:8000
+      - NGINX_URL=http://acge_backend:8000
       - WEB_PORT=4200
 
     depends_on:
       - backend_django
+networks:
+  acge_dev_network:
+    driver: bridge

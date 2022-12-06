@@ -1,6 +1,6 @@
 export const backendPort = ':8000';
 export const backendProtocol = 'http://';
-export const backendDomain = 'localhost';
+export const backendDomain = '0.0.0.0';
 export const backendUrl = `${backendProtocol}${backendDomain}${backendPort}`;
 export const environment = {
   production: true,
