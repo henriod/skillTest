@@ -1,4 +1,4 @@
-export const backendPort = ':8000';
+export const backendPort = ':8008';
 export const backendProtocol = 'http://';
 export const backendDomain = '0.0.0.0';
 export const backendUrl = `${backendProtocol}${backendDomain}${backendPort}`;
