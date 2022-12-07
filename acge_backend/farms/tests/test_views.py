@@ -73,6 +73,13 @@ class GetBestPerforming(TestCase):
 
 
 class UploadFarmAsCsv(TestCase):
+    """
+    This test sends a POST request to the /api/farms/upload_csv/
+    endpoint with a CSV file containing two farms,
+    and checks that the response has a 201 CREATED status code and
+    that the added farms are in the database.
+    """
+
     def test_upload_csv(self):
         # Set up the request data
         csv_file = open(path, "rb")
