@@ -25,54 +25,6 @@ class FarmViewSet(viewsets.ModelViewSet):
     format of coordinate either polygon or multipolygon
     """
 
-    # @action(
-    #     detail=False,
-    #     methods=["post"],
-    #     name="Upload Farm CSV file",
-    #     serializer_class=FarmCsvUploadSerializer,
-    # )
-    # def upload_csv(self, request):
-    #     serializer = FarmCsvUploadSerializer(data=request.data)
-    #     if serializer.is_valid():
-    #         file = serializer.validated_data["csv_file"]
-    #         reader = pd.read_csv(file)
-    #         message = "Data added Successfully"
-    #         for _, row in reader.iterrows():
-    #             # We use try to prevent server from crushing on wrong data
-    #             try:
-    #                 geo = fromstr(row["Geolocation Boundaries"])
-    #             except:
-    #                 return Response(
-    #                     {"details": "Farm boundary not a valid wkt"},
-    #                     status=status.HTTP_400_BAD_REQUEST,
-    #                 )
-    #             # Convert Polygon to Multipolygon is our modelfield is Multipolygon
-    #             if geo.geom_type == "Polygon":
-    #                 geo = MultiPolygon(geo)
-
-    #             new_farm = Farm(
-    #                 farm_name=row["Farm Name"],
-    #                 soc=row["SOC (tonnes/hectare)"],
-    #                 geo=geo,
-    #             )
-    #             if not (
-    #                 Farm.objects.filter(geo=new_farm.geo)
-    #                 or Farm.objects.filter(geo__overlaps=new_farm.geo)
-    #                 or Farm.objects.filter(geo__within=new_farm.geo)
-    #             ):
-    #                 new_farm.save()
-    #             else:
-    #                 message += " except for:" + new_farm.farm_name + ", "
-    #             # new_farm.save()
-    #         return Response({"status": message}, status.HTTP_201_CREATED)
-    #     else:
-    #         return Response(
-    #             {
-    #                 "details": "There was an error adding you data please try again later"
-    #             },
-    #             status=status.HTTP_400_BAD_REQUEST,
-    #         )
-
     @action(
         detail=False,
         methods=["post"],
