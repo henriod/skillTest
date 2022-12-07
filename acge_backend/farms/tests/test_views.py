@@ -2,6 +2,7 @@ import json
 from rest_framework import status
 from django.test import TestCase, Client
 from django.urls import reverse
+from django.conf import settings
 from django.contrib.gis.geos import fromstr
 from farms.models import Farm
 from farms.api.serializers import FarmSerializer, FarmCsvUploadSerializer
@@ -9,6 +10,7 @@ from farms.api.serializers import FarmSerializer, FarmCsvUploadSerializer
 
 # initialize the APIClient app
 client = Client()
+path = str(settings.BASE_DIR / "farms/tests/test_farms.csv")
 
 
 class GetAllFarmsTest(TestCase):
@@ -71,5 +73,20 @@ class GetBestPerforming(TestCase):
 
 
 class UploadFarmAsCsv(TestCase):
-    def setUp(self):
-        data3 = 5
+    def test_upload_csv(self):
+        # Set up the request data
+        csv_file = open(path, "rb")
+        data = {"csv_file": csv_file}
+
+        # Send the request and check the response
+        response = client.post("/api/v1/farms/upload_csv/", data, format="multipart")
+        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
+        self.assertEqual(
+            response.data["status"], "Data added successfully for: Farm 1, Farm 2."
+        )
+
+        # Check that the farms were added to the database
+        farms = Farm.objects.all()
+        self.assertEqual(len(farms), 2)
+        self.assertEqual(farms[0].farm_name, "Farm 1")
+        self.assertEqual(farms[1].farm_name, "Farm 2")
