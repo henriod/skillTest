@@ -1,4 +1,4 @@
-FROM node:16 as node
+FROM node:18 as node
 RUN mkdir -p /home/web
 WORKDIR /home/web
 COPY . /home/web

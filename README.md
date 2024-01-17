@@ -1,4 +1,4 @@
-# ACGE Project
+# Project
 
 This is a repo for testing my skills in Gis development with Django PostGIS, leaflet, and angular
 

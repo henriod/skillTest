@@ -6,7 +6,7 @@ ENV PYTHONDONTWRITEBYTECODE 1
 ENV PYTHONUNBUFFERED 1
 
 RUN apt-get update  \
-    && apt-get install build-essential binutils -y
+    && apt-get install build-essential binutils libpq-dev gcc -y
 
 RUN apt-get install python3-pip -y
 
